@@ -70,9 +70,15 @@ func Warning(msg string) {
 	slog.Warn(warningColor.Sprint(msg))
 }
 
+// Logs an error, after what was being done when there's a message. The error is always shown, as many callers have
+// nothing to add to it
 func Error(msg string, err error) {
 	if err != nil {
-		Debug(err.Error())
+		if msg == "" {
+			msg = err.Error()
+		} else {
+			msg = fmt.Sprintf("%s: %s", msg, err)
+		}
 	}
 	slog.Error(errorColor.Sprint(msg))
 }
